@@ -26,10 +26,12 @@ Acceder a la información de manera rápida y segura.
 
 4. Instalación
     4.1. Clonar el repositorio
-    4.2. Instalar dependencias con Composer -> composer install
-    4.2. Configurar la base de datos -> Copia el archivo de ejemplo .env.example y renómbralo a .env
-    4.3. Configurar conexión a la base de datos en el archivo config.php
-    4.4. Levantar el servidor local y acceder al proyecto
+    4.2. Instalar dependencias con Composer -> composer install (bash)
+    4.3. Configurar la base de datos -> Copia el archivo de ejemplo .env.example y renómbralo a .env
+    4.4. Generar clave de aplicación -> php artisan key:generate (bash)
+    4.5. Ejecutar migraciones -> php artisan migrate (bash)
+    4.6. Levantar el servidor local y acceder al proyecto -> php artisan serve
+         http://127.0.0.1:8000
 
 5. Tecnologías utilizadas
 -PHP
