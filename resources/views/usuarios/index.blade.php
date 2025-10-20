@@ -1,0 +1,53 @@
+@extends('layouts.app')
+
+@section('title', 'Usuarios')
+
+@section('content')
+<div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+    <h2>Gestión de Usuarios</h2>
+    <a href="#" class="btn btn-primary" id="btnNuevoVehiculo">+ Nuevo Usuario</a>
+</div>
+
+<table id="tablaListaUsuarios" class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>N°</th>
+            <th>Nombre Completo</th>
+            <th>Correo</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+</table>
+
+
+<script>
+    $(document).ready(function() {
+        
+        tablaListaUsuarios = $('#tablaListaUsuarios').DataTable({
+            pageLength: 10, 
+            paging: false,
+            info: false,
+            searching: false,
+            lengthChange: false,
+            ordering: true,
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+            }
+        });
+
+
+    });
+</script>
+
+@if (session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: "{{ session('success') }}",
+        showConfirmButton: false,
+        timer: 2000
+    });
+</script>
+@endif
+@endsection

@@ -23,7 +23,7 @@ Acceder a la información de manera rápida y segura.
     *fileinfo
     *mbstring
     *zip
-
+    
 4. Instalación
     4.1. Clonar el repositorio
     4.2. Instalar dependencias con Composer -> composer install (bash)
