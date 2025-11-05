@@ -18,14 +18,30 @@
             <th>Acciones</th>
         </tr>
     </thead>
+    <tbody>
+        @forelse ($usuarios as $usuario)
+        <tr>
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $usuario->name }}</td>
+            <td>{{ $usuario->email }}</td>
+            <td>{{ $usuario->estado = 1 ? 'Activo' : 'Inactivo' }}</td>
+            <td>-</td>
+
+        </tr>
+        @empty
+        <tr>
+            <td colspan="5">No hay Usuarios registrados.</td>
+        </tr>
+        @endforelse
+    </tbody>
 </table>
 
 
 <script>
     $(document).ready(function() {
-        
+
         tablaListaUsuarios = $('#tablaListaUsuarios').DataTable({
-            pageLength: 10, 
+            pageLength: 10,
             paging: false,
             info: false,
             searching: false,
