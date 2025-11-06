@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuarios;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class usuariosController extends Controller
 {
@@ -29,7 +30,25 @@ class usuariosController extends Controller
      */
     public function store(Request $request)
     {
-         
+        $request->validate([
+            'nomUsu' => 'required|string|max:255',
+            'correo' => 'required|email|unique:users,email',
+            'password' => 'required|confirmed',
+            'role' => 'required|string',
+        ]);
+
+        // Crear vehículo
+        usuarios::create([
+            'name' => $request->nomUsu,
+            'email' => $request->correo,
+            'role' => $request->role,
+            'password' => Hash::make($request->password), 
+            'estado' => 1,
+            'created_at' => now(),
+        ]);
+
+        // Redirigir con mensaje
+        return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente');
     }
 
     /**
@@ -51,16 +70,10 @@ class usuariosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-       
-    }
+    public function update(Request $request, string $id) {}
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
- 
-    }
+    public function destroy(string $id) {}
 }
