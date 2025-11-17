@@ -13,7 +13,7 @@ class usuariosController extends Controller
      */
     public function index()
     {
-        $usuarios = Usuarios::where('estado', 1)->get();
+        $usuarios = Usuarios::get();
         return view('usuarios.index', compact('usuarios'));
     }
 
@@ -75,5 +75,11 @@ class usuariosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id) {}
+    public function destroy(string $id) {
+        $usuarios = Usuarios::findOrFail($id);
+        $usuarios->estado=0;
+        $usuarios->save();
+        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente');
+
+    }
 }

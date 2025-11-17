@@ -7,13 +7,13 @@
     <h2>Gestión de Usuarios</h2>
     <a href="#" class="btn btn-primary" id="btnNuevoUsuario">+ Nuevo Usuario</a>
 </div>
-
 <table id="tablaListaUsuarios" class="table table-bordered table-striped">
     <thead class="table-dark">
         <tr>
             <th>N°</th>
             <th>Nombre Completo</th>
             <th>Correo</th>
+            <th>Rol</th>|
             <th>Estado</th>
             <th>Acciones</th>
         </tr>
@@ -24,8 +24,18 @@
             <td>{{ $loop->iteration }}</td>
             <td>{{ $usuario->name }}</td>
             <td>{{ $usuario->email }}</td>
-            <td>{{ $usuario->estado = 1 ? 'Activo' : 'Inactivo' }}</td>
-            <td>-</td>
+            <td>{{ $usuario->role }}</td>
+            <td>{{ $usuario->ESTADO == 1 ? 'Activo' : 'Inactivo' }}</td>
+
+            <td>
+
+                <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" class="form-eliminar" style="display:inline-block;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                </form>
+
+            </td>
 
         </tr>
         @empty
@@ -102,9 +112,32 @@
             }
         });
 
-        $('#btnNuevoUsuario').click(function(){
+        $('#btnNuevoUsuario').click(function() {
             $('#modalNuevoUsuario').modal('show');
         });
+
+
+        $('.form-eliminar').on('submit', function(e) {
+            e.preventDefault();
+
+            const form = this;
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+
     });
 </script>
 
@@ -121,15 +154,11 @@
 
 @if ($errors->any())
 <script>
-Swal.fire({
-    icon: 'error',
-    title: 'Corriga los Datos Ingresados',
-    confirmButtonText: 'Entendido'
-}); 
-
+    Swal.fire({
+        icon: 'error',
+        title: 'Corriga los Datos Ingresados',
+        confirmButtonText: 'Entendido'
+    });
 </script>
 @endif
 @endsection
-
-
-
