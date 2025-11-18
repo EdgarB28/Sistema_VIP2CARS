@@ -29,7 +29,11 @@
 
             <td>
 
-                <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" class="form-eliminar" style="display:inline-block;">
+                <form action="{{ route('usuarios.destroy', $usuario->id) }}" 
+                    method="POST" 
+                    class="form-eliminar"
+                    data-estado="{{ $usuario->ESTADO }}" 
+                    style="display:inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
@@ -120,7 +124,18 @@
         $('.form-eliminar').on('submit', function(e) {
             e.preventDefault();
 
+            let estado = $(this).data('estado');
             const form = this;
+
+            if (estado == 0) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Usuario ya está inactivo',
+                    text: 'No se puede eliminar nuevamente.',
+                    confirmButtonText: 'Entendido'
+                });
+                return; 
+            }
 
             Swal.fire({
                 title: '¿Estás seguro?',
