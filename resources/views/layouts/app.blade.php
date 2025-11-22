@@ -49,7 +49,8 @@
             <h4>Bienvenido, {{ Auth::user()->name }}</h4>
             <a href="{{ route('clientes.index') }}">👥 Clientes</a>
             <a href="{{ route('vehiculos.index') }}">🚗 Vehículos</a>
-             <a href="{{ route('usuarios.index') }}">🧑‍💼 Usuarios</a>
+            <a href="{{ route('usuarios.index') }}">🧑‍💼 Usuarios</a>
+            <a href="{{ route('ordenes_servicio.index') }}">🛠️ Ordenes</a>
             <a href="{{ route('logout') }}">🚪 Cerrar sesión</a>
         </div>
     @endif
@@ -58,6 +59,6 @@
     <div class="content">
         @yield('content')
     </div>
-
+     
 </body>
 </html>
