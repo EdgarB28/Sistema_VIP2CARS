@@ -13,7 +13,10 @@ class OrdenServicio extends Model
         'descripcion',
         'estado',
         'total_mano_obra',
-        'total_repuestos'
+        'total_repuestos',
+        'total',
+        'fecha_ingreso',
+        'fecha_salida'
     ];
 
     public function cliente()

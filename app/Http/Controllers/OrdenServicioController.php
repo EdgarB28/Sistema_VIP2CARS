@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Cliente;
+use App\Models\Vehiculo;
+use App\Models\OrdenServicio;
 use Illuminate\Http\Request;
 
 class OrdenServicioController extends Controller
@@ -10,10 +14,12 @@ class OrdenServicioController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {  
-          
-         return view('ordenes_servicio.index');
-         
+    {
+        $orden_servicio = OrdenServicio::with('vehiculo', 'cliente')->get();
+        $vehiculo = Vehiculo::get();
+        $cliente = Cliente::get();
+
+        return view('ordenes_servicio.index', compact('orden_servicio', 'vehiculo', 'cliente'));
     }
 
     /**
