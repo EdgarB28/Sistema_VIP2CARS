@@ -30,15 +30,13 @@
             <td>{{ $ordenes->fecha_ingreso }}</td>
             <td>{{ $ordenes->fecha_salida }}</td>
             <td>{{ $ordenes->estado }}</td>
-            <td>{{ $ordenes->total }}</td>        
+            <td>{{ $ordenes->total }}</td>
             <td>
-                <button class="btn btn-sm btn-warning btn-editar"
-                    >
+                <button class="btn btn-sm btn-warning btn-editar">
                     Editar
                 </button>
 
-                 <button class="btn btn-sm btn-success btn-editar"
-                    >
+                <button class="btn btn-sm btn-success btn-editar">
                     Detalle
                 </button>
             </td>
@@ -52,6 +50,101 @@
 
     </tbody>
 </table>
+
+
+<!-- Modal Crear Orden de Servicio -->
+<div class="modal fade" id="modalCrearOrden" tabindex="-1" aria-labelledby="modalCrearOrdenLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="modalCrearOrdenLabel">Nueva Orden de Servicio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form id="formCrearOrden">
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label">Cliente</label>
+                            <select class="form-select" name="id_cliente" required>
+                                <option value="">Seleccione Cliente</option>
+                                @foreach($cliente as $c)
+                                <option value="{{ $c->id }}">{{ $c->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-6">
+                            <label class="form-label">Vehículo</label>
+                            <select class="form-select" name="id_vehiculo" required>
+                                <option value="">Seleccione Vehículo</option>
+                                @foreach($vehiculo as $v)
+                                <option value="{{ $v->id }}">{{ $v->marca }} - {{ $v->placa }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" name="descripcion" rows="3" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select class="form-select" name="estado" required>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En Proceso">En Proceso</option>
+                            <option value="Finalizado">Finalizado</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label">Fecha de Ingreso</label>
+                            <input type="datetime-local" class="form-control" name="fecha_ingreso" required>
+                        </div>
+
+                        <div class="col-6">
+                            <label class="form-label">Fecha de Salida</label>
+                            <input type="datetime-local" class="form-control" name="fecha_salida">
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="form-label">Total Mano de Obra</label>
+                            <input type="number" step="0.01" class="form-control" name="total_mano_obra" required>
+                        </div>
+
+                        <div class="col-4">
+                            <label class="form-label">Total Repuestos</label>
+                            <input type="number" step="0.01" class="form-control" name="total_repuestos" required>
+                        </div>
+
+                        <div class="col-4">
+                            <label class="form-label">Total Final</label>
+                            <input type="number" step="0.01" class="form-control" name="total" required>
+                        </div>
+                    </div>
+                    <div id="erroresCrearOrden" class="text-danger mt-2"></div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Orden</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
 
 <script>
     $(document).ready(function() {
@@ -68,7 +161,9 @@
             }
         });
 
-
+        $('#btnNuevaOrden').click(function() {
+            $('#modalCrearOrden').modal('show');
+        });
 
     });
 </script>
