@@ -32,9 +32,11 @@
             <td>{{ $ordenes->estado }}</td>
             <td>{{ $ordenes->total }}</td>
             <td>
-                <button class="btn btn-sm btn-warning btn-editar">
+                <button class="btn btn-sm btn-warning btn-editar"
+                    data-estado="{{ $ordenes->estado }}">
                     Editar
                 </button>
+
 
                 <button class="btn btn-sm btn-success btn-editar">
                     Detalle
@@ -46,8 +48,6 @@
             <td colspan="5">No hay Vehiculo registrados.</td>
         </tr>
         @endforelse
-
-
     </tbody>
 </table>
 
@@ -144,7 +144,43 @@
     </div>
 </div>
 
+<!-- Modal Editar Orden -->
+<div class="modal fade" id="modalEditarOrden" tabindex="-1" aria-labelledby="modalEditarOrden" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
 
+            <div class="modal-header bg-warning text-white">
+                <h5 class="modal-title" id="modalEditarOrdenLabel">Editar Orden de Servicio</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="formCrearOrden">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label">Estado</label>
+                            <select class="form-select" name="estado" required>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="En Proceso">En Proceso</option>
+                                <option value="Finalizado">Finalizado</option>
+                            </select>
+                        </div>
+
+                        <div class="col-6">
+                            <label class="form-label">Fecha de Ingreso</label>
+                            <input type="datetime-local" class="form-control" name="fecha_ingreso" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <textarea class="form-control" name="descripcion" rows="3" required></textarea>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
     $(document).ready(function() {
@@ -165,7 +201,46 @@
             $('#modalCrearOrden').modal('show');
         });
 
+        $(document).on('click', '.btn-editar', function() {
+            let estado = $(this).data('estado');
+
+            if (estado == 'Finalizado') {
+                msjFinal('2', 'LA ORDEN SE ENCUENTRA FINALIZADA');
+                return;
+            }
+
+            console.log('pase');
+            $('#modalEditarOrden').modal('show');
+        });
+
+
+
+    });
+
+
+    function msjFinal(codigo, text) {
+        let icon = 'warning';
+
+        if (codigo == 1) {
+            icon = 'success';
+        }
+        Swal.fire({
+            title: 'MENSAJE',
+            text: text,
+            icon: icon
+        })
+    }
+</script>
+
+@if (session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: "{{ session('success') }}",
+        showConfirmButton: false,
+        timer: 2000
     });
 </script>
+@endif
 
 @endsection
