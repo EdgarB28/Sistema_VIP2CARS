@@ -4,7 +4,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class OrdenServicio extends Model
-{
+{   
+    protected $primaryKey = 'id';
     protected $table = 'ordenes_servicio';
 
     protected $fillable = [

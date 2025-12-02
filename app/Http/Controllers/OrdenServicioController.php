@@ -41,9 +41,21 @@ class OrdenServicioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $orden = OrdenServicio::with('cliente', 'vehiculo')->findOrFail($id);
+
+        return response()->json([
+            'id' => $orden->id,
+            'descripcion' => $orden->descripcion,
+            'estado' => $orden->estado,
+            'fecha_ingreso' => $orden->fecha_ingreso,
+            'fecha_ingreso_formato' => $orden->fecha_ingreso ? date('Y-m-d\TH:i', strtotime($orden->fecha_ingreso)) : null,
+            'fecha_salida' => $orden->fecha_salida,
+            'total' => $orden->total,
+            'cliente' => $orden->cliente,
+            'vehiculo' => $orden->vehiculo
+        ]);
     }
 
     /**

@@ -33,7 +33,7 @@
             <td>{{ $ordenes->total }}</td>
             <td>
                 <button class="btn btn-sm btn-warning btn-editar"
-                    data-estado="{{ $ordenes->estado }}">
+                    data-id="{{ $ordenes->id}}">
                     Editar
                 </button>
 
@@ -158,7 +158,7 @@
                     <div class="row">
                         <div class="col-6">
                             <label class="form-label">Estado</label>
-                            <select class="form-select" name="estado" required>
+                            <select class="form-select" name="estado" id="estado" required>
                                 <option value="Pendiente">Pendiente</option>
                                 <option value="En Proceso">En Proceso</option>
                                 <option value="Finalizado">Finalizado</option>
@@ -167,14 +167,38 @@
 
                         <div class="col-6">
                             <label class="form-label">Fecha de Ingreso</label>
-                            <input type="datetime-local" class="form-control" name="fecha_ingreso" required>
+                            <input type="datetime-local" class="form-control" name="fecha_ingreso" id="fecha_ingreso" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Descripción</label>
-                            <textarea class="form-control" name="descripcion" rows="3" required></textarea>
+                            <textarea class="form-control" name="descripcion" id="descripcion" rows="3" required></textarea>
                         </div>
 
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <label class="form-label">Total Mano Obra</label>
+                            <input type="number" min="0" class="form-control" name="totManoObra"
+                                id="totManoObra">
+                        </div>
+
+                        <div class="col-4">
+                            <label class="form-label">Total Repuestos</label>
+                            <input type="number" min="0" class="form-control" name="totRepuestos"
+                                id="totRepuestos">
+                        </div>
+
+                        <div class="col-4">
+                            <label class="form-label">Importe Total</label>
+                            <input type="number" min="0" class="form-control" name="impTotal"
+                                id="impTotal" disabled>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Editar</button>
                     </div>
                 </div>
             </form>
@@ -202,15 +226,30 @@
         });
 
         $(document).on('click', '.btn-editar', function() {
-            let estado = $(this).data('estado');
+            let codigo = $(this).data('id');
+            $.ajax({
+                url: `/ordenes_servicio/${codigo}`,
+                type: "GET",
+                success: function(res) {
+                    let estado = res.estado;
 
-            if (estado == 'Finalizado') {
-                msjFinal('2', 'LA ORDEN SE ENCUENTRA FINALIZADA');
-                return;
-            }
+                    if (estado == 'Finalizado') {
+                        msjFinal('2', 'LA ORDEN SE ENCUENTRA FINALIZADA');
+                        return;
+                    }
+                    $('#fecha_ingreso').val(res.fecha_ingreso_formato);
+                    $('#estado').val(res.estado);
+                    $('#descripcion').val(res.descripcion || 0);
+                    $('#totManoObra').val(res.total_mano_obra || 0);
+                    $('#totRepuestos').val(res.total_repuestos || 0);
+                    $('#impTotal').val(res.total);
 
-            console.log('pase');
-            $('#modalEditarOrden').modal('show');
+                    $('#modalEditarOrden').modal('show');
+
+                }
+            });
+
+
         });
 
 
