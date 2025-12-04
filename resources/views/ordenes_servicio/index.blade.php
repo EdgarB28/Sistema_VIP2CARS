@@ -153,7 +153,9 @@
                 <h5 class="modal-title" id="modalEditarOrdenLabel">Editar Orden de Servicio</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form id="formCrearOrden">
+            <form id="formEditarOrden">
+                <input type="hidden" id="id_orden" name="id_orden">
+
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-6">
@@ -176,22 +178,23 @@
                         </div>
 
                     </div>
+
                     <div class="row mb-3">
                         <div class="col-4">
                             <label class="form-label">Total Mano Obra</label>
-                            <input type="number" min="0" class="form-control" name="totManoObra"
+                            <input type="number" min="0" class="form-control" name="total_mano_obra"
                                 id="totManoObra">
                         </div>
 
                         <div class="col-4">
                             <label class="form-label">Total Repuestos</label>
-                            <input type="number" min="0" class="form-control" name="totRepuestos"
+                            <input type="number" min="0" class="form-control" name="total_repuestos"
                                 id="totRepuestos">
                         </div>
 
                         <div class="col-4">
                             <label class="form-label">Importe Total</label>
-                            <input type="number" min="0" class="form-control" name="impTotal"
+                            <input type="number" min="0" class="form-control" name="total"
                                 id="impTotal" disabled>
                         </div>
                     </div>
@@ -243,6 +246,7 @@
                     $('#totManoObra').val(res.total_mano_obra || 0);
                     $('#totRepuestos').val(res.total_repuestos || 0);
                     $('#impTotal').val(res.total);
+                    $('#id_orden').val(res.id);
 
                     $('#modalEditarOrden').modal('show');
 
@@ -250,6 +254,22 @@
             });
 
 
+        });
+
+        $('#formEditarOrden').on('submit', function(e) {
+            e.preventDefault();
+
+            let id = $('#id_orden').val();
+
+            $.ajax({
+                url: `/ordenes_servicio/${id}`,
+                type: "PUT",
+                data: $(this).serialize() + "&_token={{ csrf_token() }}",
+                success: function(res) {
+                    Swal.fire('OK', res.message, 'success');
+                    setTimeout(() => location.reload(), 1200);
+                }
+            });
         });
 
 
