@@ -79,16 +79,23 @@ class OrdenServicioController extends Controller
             'descripcion'       => 'required|string',
             'total_mano_obra'       => 'nullable|numeric',
             'total_repuestos'      => 'nullable|numeric',
+            'fecha_salida'      => 'nullable|date'
         ]);
 
-        $mano_obra = $request->totManoObra ?? 0;
-        $repuestos = $request->totRepuestos ?? 0;
+        $mano_obra = $request->total_mano_obra ?? 0;
+        $repuestos = $request->total_repuestos ?? 0;
 
         $orden->estado = $request->estado;
         $orden->fecha_ingreso = $request->fecha_ingreso;
         $orden->descripcion = $request->descripcion;
         $orden->total_mano_obra = $mano_obra;
         $orden->total_repuestos = $repuestos;
+
+        if ($request->estado === 'Finalizado') {
+            $orden->fecha_salida = $request->fecha_salida;
+        } else {
+            $orden->fecha_salida = null;
+        }
 
         $orden->save();
 

@@ -158,7 +158,7 @@
 
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-6 mb-3">
                             <label class="form-label">Estado</label>
                             <select class="form-select" name="estado" id="estado" required>
                                 <option value="Pendiente">Pendiente</option>
@@ -167,9 +167,14 @@
                             </select>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-6 mb-3">
                             <label class="form-label">Fecha de Ingreso</label>
                             <input type="datetime-local" class="form-control" name="fecha_ingreso" id="fecha_ingreso" required>
+                        </div>
+
+                        <div class="col-6" id="div_fecha_salida" style="display:none;">
+                            <label class="form-label">Fecha de Salida</label>
+                            <input type="datetime-local" class="form-control" name="fecha_salida" id="fecha_salida">
                         </div>
 
                         <div class="mb-3">
@@ -180,22 +185,16 @@
                     </div>
 
                     <div class="row mb-3">
-                        <div class="col-4">
+                        <div class="col-6">
                             <label class="form-label">Total Mano Obra</label>
                             <input type="number" min="0" class="form-control" name="total_mano_obra"
                                 id="totManoObra">
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-6">
                             <label class="form-label">Total Repuestos</label>
                             <input type="number" min="0" class="form-control" name="total_repuestos"
                                 id="totRepuestos">
-                        </div>
-
-                        <div class="col-4">
-                            <label class="form-label">Importe Total</label>
-                            <input type="number" min="0" class="form-control" name="total"
-                                id="impTotal" disabled>
                         </div>
                     </div>
 
@@ -245,16 +244,24 @@
                     $('#descripcion').val(res.descripcion || 0);
                     $('#totManoObra').val(res.total_mano_obra || 0);
                     $('#totRepuestos').val(res.total_repuestos || 0);
-                    $('#impTotal').val(res.total);
                     $('#id_orden').val(res.id);
 
                     $('#modalEditarOrden').modal('show');
 
                 }
             });
-
-
         });
+
+        $(document).on('change', '#estado', function() {
+            if ($(this).val() === 'Finalizado') {
+                $('#div_fecha_salida').show();
+                $('#fecha_salida').attr('required', true);
+            } else {
+                $('#div_fecha_salida').hide();
+                $('#fecha_salida').removeAttr('required').val('');
+            }
+        });
+
 
         $('#formEditarOrden').on('submit', function(e) {
             e.preventDefault();
