@@ -51,6 +51,7 @@
             <a href="{{ route('vehiculos.index') }}">🚗 Vehículos</a>
             <a href="{{ route('usuarios.index') }}">🧑‍💼 Usuarios</a>
             <a href="{{ route('ordenes_servicio.index') }}">🛠️ Ordenes</a>
+            <a href="{{ route('reportes.index') }}">📊 Reportes</a>
             <a href="{{ route('logout') }}">🚪 Cerrar sesión</a>
         </div>
     @endif
