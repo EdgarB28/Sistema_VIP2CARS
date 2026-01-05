@@ -26,4 +26,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/reportes/ordenes', [ReportesController::class, 'ordenes'])
         ->name('reportes.ordenes');
+
+    Route::post('/reportes/exportar-excel', [ReportesController::class, 'exportExcel'])
+    ->name('reportes.export.excel');
+
 });

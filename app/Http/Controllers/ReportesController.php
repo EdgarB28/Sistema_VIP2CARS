@@ -12,7 +12,7 @@ class ReportesController extends Controller
      */
     public function index()
     {
-        return view('reportes.ordenes');
+        return view('reportes.index');
     }
 
     public function ordenes(Request $request)
@@ -42,6 +42,25 @@ class ReportesController extends Controller
             'total'   => $total
         ]);
     }
+
+    public function exportExcel(Request $request)
+    {
+        $ordenes = OrdenServicio::with(['cliente', 'vehiculo'])
+            ->whereBetween('fecha_ingreso', [
+                $request->fecha_inicio,
+                $request->fecha_fin
+            ])
+            ->when($request->estado, function ($q) use ($request) {
+                $q->where('estado', $request->estado);
+            })
+            ->get();
+
+        return response()
+            ->view('reportes.ordenes_excel', compact('ordenes'))
+            ->header('Content-Type', 'application/vnd.ms-excel')
+            ->header('Content-Disposition', 'attachment; filename="reporte_ordenes.xls"');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
