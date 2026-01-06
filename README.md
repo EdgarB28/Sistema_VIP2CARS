@@ -4,7 +4,7 @@ VIP2CARS - Sistema CRUD de Vehículos y Clientes
 
 2. Descripción
 
-Este proyecto es un sistema web desarrollado en PHP Y Larabel (Blade) para registrar y gestionar información de vehículos y sus Clientes asociados, perteneciente a la empresa automotriz VIP2CARS. Permite:
+Este proyecto es un sistema web desarrollado en PHP Y Laravel (Blade) para registrar y gestionar información de vehículos y sus Clientes asociados, perteneciente a la empresa automotriz VIP2CARS. Permite:
 
 Registrar, modificar y eliminar datos de vehículos y clientes.
 
